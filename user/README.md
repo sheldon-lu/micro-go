@@ -5,7 +5,7 @@ This is the User service
 Generated with
 
 ```
-micro new shopping/user --namespace=go.micro --type=srv
+micro new micros/user --namespace=go.micro --type=srv
 ```
 
 ## Getting Started

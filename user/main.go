@@ -10,7 +10,7 @@ import (
 	"github.com/micro/go-micro"
 	// "github.com/micro/go-micro/util/log"
 
-	user "shopping/user/proto/user"
+	user "micros/user/proto/user"
 )
 
 func main() {
