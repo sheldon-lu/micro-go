@@ -34,12 +34,14 @@ cd micros/user
 ## 因为是微服务，每个服务都是独立的模块，需要单独起服务。
 go run main.go -registry=consul
 
+
+## 推荐三层架构。
 ## 如果有api服务代码启动api服务和micro api统一入口，
 ## micro api：(localhost:8080)-http访问入口,此作为api gateway网关
 ## api service：(go.micro.api.xxx)-对外暴露的API服务
 ## backend service：(go.micro.srv.xxx)-内网的后台服务
 ## 对应启动：
-micro -registry api --handler=api ## /web/rpc/proxy/event
+## micro -registry api   ## --handler=api /web/rpc/proxy/event
 ## --handler=api ---> handler参数api/web/rpc/proxy/event..
 go run api/api.go
 go run srv/main.go
@@ -48,3 +50,17 @@ go run srv/main.go
 micro -registry=consul api --namespace=go.micro.srv
 
 ```
+
+补充：
+API Handler
+API处理器接收任何的HTTP请求，并且向前转发指定格式的RPC请求。
+
+Content-Type: 支持任何类型
+Body: 支持任何格式
+Forward Format: 转发格式会按照go-micro中的go-api的方法，
+[api.Request](https://github.com/asim/go-api/blob/master/proto/api.proto)\/api.Response
+
+Path: 请求路径，/[service]/[method]
+Resolver: 请求解析器，路径会被解析成服务与方法
+Configure: 配置，在启动时指定--handler=api或在启动命令前指定环境变量MICRO_API_HANDLER=api
+

@@ -24,6 +24,7 @@ func main() {
 		log.Fatalf("connection error : %v \n", err)
 	}
 
+	// Get db client
 	repo := &repository.User{db}
 
 	// New Service
