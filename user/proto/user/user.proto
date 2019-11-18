@@ -6,6 +6,7 @@ service UserService {
 	rpc Register (RegisterRequest) returns (Response){}
 	rpc Login (LoginRequest) returns (Response){}
 	rpc UpdatePassword (UpdatePasswordRequest) returns (Response){}
+	rpc List (ListRequest) returns (Response){}
 }
 
 message User {
@@ -16,6 +17,10 @@ message User {
 }
 
 message RegisterRequest{
+	User user = 1;
+}
+
+message ListRequest{
 	User user = 1;
 }
 

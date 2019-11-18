@@ -88,3 +88,7 @@ func (e *User) UpdatePassword(ctx context.Context, req *user.UpdatePasswordReque
 
 	return nil
 }
+
+func (e *User) List(ctx context.Context, req *user.ListRequest, rsp *user.Response) error {
+	return nil
+}

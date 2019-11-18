@@ -37,6 +37,7 @@ type UserService interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*Response, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*Response, error)
 	UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, opts ...client.CallOption) (*Response, error)
+	List(ctx context.Context, in *ListRequest, opts ...client.CallOption) (*Response, error)
 }
 
 type userService struct {
@@ -87,12 +88,23 @@ func (c *userService) UpdatePassword(ctx context.Context, in *UpdatePasswordRequ
 	return out, nil
 }
 
+func (c *userService) List(ctx context.Context, in *ListRequest, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.name, "UserService.List", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
 	Register(context.Context, *RegisterRequest, *Response) error
 	Login(context.Context, *LoginRequest, *Response) error
 	UpdatePassword(context.Context, *UpdatePasswordRequest, *Response) error
+	List(context.Context, *ListRequest, *Response) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) error {
@@ -100,6 +112,7 @@ func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts .
 		Register(ctx context.Context, in *RegisterRequest, out *Response) error
 		Login(ctx context.Context, in *LoginRequest, out *Response) error
 		UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, out *Response) error
+		List(ctx context.Context, in *ListRequest, out *Response) error
 	}
 	type UserService struct {
 		userService
@@ -122,4 +135,8 @@ func (h *userServiceHandler) Login(ctx context.Context, in *LoginRequest, out *R
 
 func (h *userServiceHandler) UpdatePassword(ctx context.Context, in *UpdatePasswordRequest, out *Response) error {
 	return h.UserServiceHandler.UpdatePassword(ctx, in, out)
+}
+
+func (h *userServiceHandler) List(ctx context.Context, in *ListRequest, out *Response) error {
+	return h.UserServiceHandler.List(ctx, in, out)
 }
