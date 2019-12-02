@@ -17,8 +17,8 @@ package go_micro_srv_notification
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import _ "user/proto/user"
-import _ "product/proto/product"
+import _ "micros/user/proto/user"
+import _ "micros/product/proto/product"
 
 import (
 	context "context"

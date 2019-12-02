@@ -1,12 +1,11 @@
 package main
 
 import (
-	"github.com/micro/go-config"
 	"github.com/micro/go-grpc"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/broker"
 	"micros/common/database"
+	"micros/common/rabbitmqv1"
 	"net/http"
 
 	//"github.com/opentracing/opentracing-go"
@@ -16,8 +15,6 @@ import (
 	order "micros/order/proto/order"
 	"micros/order/repository"
 	product "micros/product/proto/product"
-
-	"github.com/micro/go-plugins/broker/rabbitmq"
 
 	//"go.opencensus.io/trace"
 	//"go.opencensus.io/exporter/zipkin"
@@ -47,9 +44,7 @@ func main() {
 	repo := &repository.Order{db}
 
 	//broker
-	b := rabbitmq.NewBroker(
-		broker.Addrs(config.Get("rabbitmq_addr").String("")),
-	)
+	b := rabbitmqv1.RabbitMQV1()
 
 	// boot trace
 	TraceBoot()
@@ -163,7 +158,7 @@ func PrometheusBoot(){
 	http.Handle("/metrics", promhttp.Handler())
 	// 启动web服务，监听8085端口
 	go func() {
-		err := http.ListenAndServe("192.168.0.110:8085", nil)
+		err := http.ListenAndServe("127.0.0.1:8085", nil)
 		if err != nil {
 			log.Fatal("ListenAndServe: ", err)
 		}

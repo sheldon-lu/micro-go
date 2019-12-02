@@ -1,15 +1,15 @@
 package main
 
 import (
-	"github.com/micro/go-config"
+	//"github.com/micro/go-config"
 	"github.com/micro/go-grpc"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/broker"
-	"github.com/micro/go-plugins/broker/rabbitmq"
-	"github.com/softlayer/softlayer-go/config"
-
+	//"github.com/micro/go-micro/broker"
+	//"github.com/micro/go-plugins/broker/rabbitmq"
 	//"github.com/opentracing/opentracing-go"
+	"micros/common/rabbitmqv1"
+
 	//"os"
 
 	//"github.com/micro/go-micro/broker"
@@ -21,16 +21,7 @@ import (
 )
 
 func main() {
-	//加载配置项
-	err := config.LoadFile("./config.json")
-	if err != nil {
-		log.Fatalf("Could not load config file: %s", err.Error())
-		return
-	}
-
-	b := rabbitmq.NewBroker(
-		broker.Addrs(config.Get("rabbitmq_addr").String("")),
-	)
+	b := rabbitmqv1.RabbitMQV1()
 
 	b.Init()
 	b.Connect()

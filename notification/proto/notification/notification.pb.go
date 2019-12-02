@@ -7,8 +7,8 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
-	product "product/proto/product"
-	user "user/proto/user"
+	product "micros/product/proto/product"
+	user "micros/user/proto/user"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

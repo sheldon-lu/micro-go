@@ -1,7 +1,7 @@
 syntax = "proto3";
 
-import "user/proto/user/user.proto";
-import "product/proto/product/product.proto";
+import "micros/user/proto/user/user.proto";
+import "micros/product/proto/product/product.proto";
 
 package go.micro.srv.notification;
 
