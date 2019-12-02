@@ -1,4 +1,8 @@
 # user服务模块结构
+```sql
+CREATE DATABASE `micros` /*!40100 DEFAULT CHARACTER SET utf8 */
+```
+
 ```$xslt
 # 生成接口代码（proto）：
 protoc --proto_path=. --micro_out=. --go_out=. proto/user/user.proto

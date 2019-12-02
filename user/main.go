@@ -4,6 +4,7 @@ import (
 	"micros/user/handler"
 	"micros/user/model"
 	"micros/user/repository"
+	"micros/common/database"
 
 	"github.com/micro/go-log"
 
@@ -14,8 +15,8 @@ import (
 )
 
 func main() {
-
-	db, err := model.CreateConnection()
+	// database
+	db, err := database.CreateConnection()
 	defer db.Close()
 
 	db.AutoMigrate(&model.User{})
