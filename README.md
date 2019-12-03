@@ -3,7 +3,7 @@
 
 
 ```shell
-test-1
+-- v1.0.0
 # 安装go-micro
 # 使用如下指令安装
 go get -u -v github.com/micro/micro
