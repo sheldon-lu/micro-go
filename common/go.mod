@@ -1,12 +1,10 @@
-module micros/common
+module micro-go/common
 
 go 1.13
 
 require (
 	github.com/jinzhu/gorm v1.9.11
-	github.com/micro/go-config v1.1.0
-	github.com/micro/go-log v0.1.0
-	github.com/micro/go-plugins v1.1.0
+	github.com/micro/go-micro v1.10.0
 )
 
 replace (

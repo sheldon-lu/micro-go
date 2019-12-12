@@ -4,8 +4,8 @@ import (
 "fmt"
 "github.com/jinzhu/gorm"
 _ "github.com/jinzhu/gorm/dialects/mysql"
-"github.com/micro/go-config"
-"github.com/micro/go-log"
+"github.com/micro/go-micro/config"
+"github.com/micro/go-micro/util/log"
 )
 // fmt.Println(conf)
 
@@ -16,7 +16,7 @@ func CreateConnection() (*gorm.DB, error) {
 		log.Fatalf("Could not load config file: %s", err.Error())
 	}
 	conf := config.Map()["mysql"]
-	fmt.Println(conf.(map[string]interface{})["host"])
+	// fmt.Println(conf.(map[string]interface{})["host"])
 
 
 	host := conf.(map[string]interface{})["host"]

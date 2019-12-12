@@ -1,10 +1,10 @@
 package subscriber
 
-/*import (
+import (
 	"context"
 	"github.com/micro/go-micro/util/log"
 
-	user "micros/user/proto/user"
+	user "micro-go/user/proto/user"
 )
 
 type User struct{}
@@ -17,4 +17,4 @@ func (e *User) Handle(ctx context.Context, msg *user.Message) error {
 func Handler(ctx context.Context, msg *user.Message) error {
 	log.Log("Function Received message: ", msg.Say)
 	return nil
-}*/
+}

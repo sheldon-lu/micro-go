@@ -1,23 +1,20 @@
 package handler
 
 import (
-	"context"
-	"micros/user/model"
-	"micros/user/repository"
-
-	"github.com/micro/go-log"
 	"github.com/micro/go-micro/errors"
+    "context"
+	"github.com/micro/go-micro/util/log"
 	"golang.org/x/crypto/bcrypt"
-
-	user "micros/user/proto/user"
+	"micro-go/user/model"
+	users "micro-go/user/model/user"
+	user "micro-go/user/proto/user"
 )
 
-type User struct {
-	Repo *repository.User
+type User struct{
+	Repo *users.User
 }
 
-// Call is a single request handler called via client.Call or the generated client code
-func (e *User) Register(ctx context.Context, req *user.RegisterRequest, rsp *user.Response) error {
+func (h *User) Register(ctx context.Context, req *user.RegisterRequest, rsp *user.Response) error {
 	hashedPwd, err := bcrypt.GenerateFromPassword([]byte(req.User.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -29,7 +26,7 @@ func (e *User) Register(ctx context.Context, req *user.RegisterRequest, rsp *use
 		Password: string(hashedPwd),
 	}
 
-	if err := e.Repo.Create(user); err != nil {
+	if err := h.Repo.Create(user); err != nil {
 		log.Log("create error")
 		return err
 	}
@@ -40,8 +37,8 @@ func (e *User) Register(ctx context.Context, req *user.RegisterRequest, rsp *use
 	return nil
 }
 
-func (e *User) Login(ctx context.Context, req *user.LoginRequest, rsp *user.Response) error {
-	user, err := e.Repo.FindByField("phone", req.Phone, "id , password")
+func (h *User) Login(ctx context.Context, req *user.LoginRequest, rsp *user.Response) error {
+	user, err := h.Repo.FindByField("phone", req.Phone, "id , password")
 	if err != err {
 		return err
 	}
@@ -57,11 +54,10 @@ func (e *User) Login(ctx context.Context, req *user.LoginRequest, rsp *user.Resp
 	rsp.Code = "200"
 	rsp.Msg = "登录成功"
 
-	return nil
-}
+	return nil}
 
-func (e *User) UpdatePassword(ctx context.Context, req *user.UpdatePasswordRequest, rsp *user.Response) error {
-	user, err := e.Repo.Find(req.Uid)
+func (h *User) UpdatePassword(ctx context.Context, req *user.UpdatePasswordRequest, rsp *user.Response) error {
+	user, err := h.Repo.Find(req.Uid)
 
 	if user == nil {
 		return errors.Unauthorized("go.micro.srv.user.login", "该用户不存在")
@@ -81,7 +77,7 @@ func (e *User) UpdatePassword(ctx context.Context, req *user.UpdatePasswordReque
 		return err
 	}
 	user.Password = string(hashedPwd)
-	e.Repo.Update(user)
+	h.Repo.Update(user, 0)
 
 	rsp.Code = "200"
 	rsp.Msg = user.Name + "，您的密码更新成功"
@@ -89,6 +85,6 @@ func (e *User) UpdatePassword(ctx context.Context, req *user.UpdatePasswordReque
 	return nil
 }
 
-func (e *User) List(ctx context.Context, req *user.ListRequest, rsp *user.Response) error {
+func (h *User) List(ctx context.Context, rep *user.ListRequest, rsp *user.Response) error {
 	return nil
 }

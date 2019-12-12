@@ -1,5 +1,12 @@
-# micros
-基于go-micro的用户接口微服务demo
+# micro-go
+### 基于go-micro的demo项目，srv -> web -> apigateway模式
+~~~ 
+srv层 基于底层逻辑
+web层 基于面向外部接口与底层交互
+api层 外部网关层
+
+micro call命令直接调用srv服务
+~~~
 
 
 ```shell

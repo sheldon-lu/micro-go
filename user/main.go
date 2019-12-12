@@ -1,17 +1,13 @@
 package main
 
 import (
-	"micros/user/handler"
-	"micros/user/model"
-	"micros/user/repository"
-	"micros/common/database"
-
-	"github.com/micro/go-log"
-
 	"github.com/micro/go-micro"
-	// "github.com/micro/go-micro/util/log"
-
-	user "micros/user/proto/user"
+	"github.com/micro/go-micro/util/log"
+	"micro-go/user/handler"
+	"micro-go/user/model"
+	user "micro-go/user/proto/user"
+	users "micro-go/user/model/user"
+	"micro-go/common/database"
 )
 
 func main() {
@@ -26,11 +22,13 @@ func main() {
 	}
 
 	// Get db client
-	repo := &repository.User{db}
+
+
+	repo := &users.User{db}
 
 	// New Service
 	service := micro.NewService(
-		micro.Name("go.micro.srv.user"),
+		micro.Name("lu.micro.srv.user"),
 		micro.Version("latest"),
 	)
 
@@ -38,13 +36,13 @@ func main() {
 	service.Init()
 
 	// Register Handler
-	user.RegisterUserServiceHandler(service.Server(), &handler.User{repo})
+	user.RegisterUserHandler(service.Server(), &handler.User{repo})
 
 	// Register Struct as Subscriber
-	// micro.RegisterSubscriber("go.micro.srv.user", service.Server(), new(subscriber.User))
+	// micro.RegisterSubscriber("lu.micro.srv.user", service.Server(), new(subscriber.User))
 
 	// Register Function as Subscriber
-	// micro.RegisterSubscriber("go.micro.srv.user", service.Server(), subscriber.Handler)
+	// micro.RegisterSubscriber("lu.micro.srv.user", service.Server(), subscriber.Handler)
 
 	// Run service
 	if err := service.Run(); err != nil {

@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package go.micro.srv.user;
+package lu.micro.srv.user;
 
-service UserService {
-	rpc Register (RegisterRequest) returns (Response){}
-	rpc Login (LoginRequest) returns (Response){}
-	rpc UpdatePassword (UpdatePasswordRequest) returns (Response){}
-	rpc List (ListRequest) returns (Response){}
+service User {
+	rpc Register (RegisterRequest) returns (Response) {}
+	rpc Login (LoginRequest) returns (Response) {}
+	rpc UpdatePassword (UpdatePasswordRequest) returns (Response) {}
+	rpc List (ListRequest) returns (Response) {}
 }
 
-message User {
+message Userinfo {
 	uint32 id = 1;
 	string name = 2;
 	string phone = 3;
@@ -17,11 +17,11 @@ message User {
 }
 
 message RegisterRequest{
-	User user = 1;
+	Userinfo user = 1;
 }
 
 message ListRequest{
-	User user = 1;
+	Userinfo user = 1;
 }
 
 message LoginRequest{
