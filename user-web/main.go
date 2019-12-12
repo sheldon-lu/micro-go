@@ -32,12 +32,13 @@ func main() {
     // register call handler
     // Create RESTful handler (using Gin)
     // Init new(User)
-    user := new(handler.User)
+    user := new(handler.Users)
     router := gin.Default()
     router.GET("/user", user.List)
     router.POST("/user/login", user.Login)
     router.POST("/user/register", user.Register)
     router.PUT("/user/updatewd", user.UpdatePassword)
+    router.DELETE("/user/deluser", user.DelUser)
 
     service.Handle("/", router)
 
