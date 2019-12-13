@@ -1,8 +1,8 @@
 package handler
 
 import (
+	"context"
 	"github.com/micro/go-micro/errors"
-    "context"
 	"github.com/micro/go-micro/util/log"
 	"golang.org/x/crypto/bcrypt"
 	"micro-go/user/model"
@@ -24,6 +24,12 @@ func (h *User) Register(ctx context.Context, req *user.RegisterRequest, rsp *use
 		Name:     req.User.Name,
 		Phone:    req.User.Phone,
 		Password: string(hashedPwd),
+	}
+
+	userinfo, err := h.Repo.FindToModel(user)
+
+	if userinfo.Phone == req.User.Phone {
+		return errors.BadRequest("go.micro.srv.user.register", "手机号已经存在！")
 	}
 
 	if err := h.Repo.Create(user); err != nil {
@@ -54,7 +60,8 @@ func (h *User) Login(ctx context.Context, req *user.LoginRequest, rsp *user.Resp
 	rsp.Code = "200"
 	rsp.Msg = "登录成功"
 
-	return nil}
+	return nil
+}
 
 func (h *User) UpdatePassword(ctx context.Context, req *user.UpdatePasswordRequest, rsp *user.Response) error {
 	user, err := h.Repo.Find(req.Uid)

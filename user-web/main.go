@@ -11,7 +11,7 @@ import (
 func main() {
     // create new web service
     service := web.NewService(
-        web.Name("lu.micro.web.user"),
+        web.Name("lu.micro.web.v1.user"),
         web.Version("latest"),
     )
 
@@ -34,11 +34,15 @@ func main() {
     // Init new(User)
     user := new(handler.Users)
     router := gin.Default()
-    router.GET("/user", user.List)
-    router.POST("/user/login", user.Login)
-    router.POST("/user/register", user.Register)
-    router.PUT("/user/updatewd", user.UpdatePassword)
-    router.DELETE("/user/deluser", user.DelUser)
+    v1 := router.Group("/v1")
+    {
+        v1.GET("/user", user.List)
+        v1.POST("/user/login", user.Login)
+        v1.POST("/user/register", user.Register)
+        v1.PUT("/user/updatewd", user.UpdatePassword)
+        v1.DELETE("/user/deleteuser", user.DeleUser)
+    }
+
 
     service.Handle("/", router)
 

@@ -3,11 +3,11 @@ package main
 import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
+	"micro-go/common/database"
 	"micro-go/user/handler"
 	"micro-go/user/model"
-	user "micro-go/user/proto/user"
 	users "micro-go/user/model/user"
-	"micro-go/common/database"
+	user "micro-go/user/proto/user"
 )
 
 func main() {
@@ -31,6 +31,8 @@ func main() {
 		micro.Name("lu.micro.srv.user"),
 		micro.Version("latest"),
 	)
+
+	// New Service
 
 	// Initialise service
 	service.Init()

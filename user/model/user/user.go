@@ -49,3 +49,12 @@ func (u *User) 	FindByField(key string, value string, fields string) (*model.Use
 	}
 	return user, nil
 }
+
+func (u *User) FindToModel(userinfo *model.User) (*model.User, error) {
+	user := &model.User{}
+	user = userinfo
+	if err := u.Dbs.Find(user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}

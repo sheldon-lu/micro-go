@@ -36,6 +36,7 @@ func (us *Users) Login(c *gin.Context) {
         log.Fatal(err)
     }
 
+    // names := LoginMap["name"].(string)
     phone := LoginMap["phone"].(string)
     password := LoginMap["password"].(string)
 
@@ -45,8 +46,8 @@ func (us *Users) Login(c *gin.Context) {
     })
 
     if err != nil {
-        log.Fatal(err)
-        c.JSON(500, err)
+        c.JSON(500, c.Error(err))
+        return
     }
 
     c.JSON(200, resp)
@@ -60,7 +61,6 @@ func (us *Users) Register(c *gin.Context) {
     if err != nil {
         log.Fatal(err)
     }
-
 
     username := registerMap["user"]["name"].(string)
     phone := registerMap["user"]["phone"].(string)
@@ -78,13 +78,11 @@ func (us *Users) Register(c *gin.Context) {
         },
     })
     if err != nil {
-        log.Fatal(err)
-        c.JSON(500, err)
+        c.JSON(500, c.Error(err))
+        return
     }
 
     c.JSON(200, resp)
-
-
 }
 
 func (us *Users) UpdatePassword(c *gin.Context) {
@@ -108,14 +106,11 @@ func (us *Users) UpdatePassword(c *gin.Context) {
         Uid: uids,
     })
     if err != nil {
-        log.Fatal(err)
-        c.JSON(500, err)
+        c.JSON(500, c.Error(err))
+        return
     }
 
     c.JSON(200, resp)
-
-
-
 }
 
 func (us *Users) List(c *gin.Context) {
@@ -125,6 +120,6 @@ func (us *Users) List(c *gin.Context) {
     })
 }
 
-func (us *Users) DelUser(c *gin.Context) {
+func (us *Users) DeleUser(c *gin.Context) {
 
 }

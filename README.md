@@ -1,11 +1,25 @@
 # micro-go
 ### 基于go-micro的demo项目，srv -> web -> apigateway模式
 ~~~ 
-srv层 基于底层逻辑
-web层 基于面向外部接口与底层交互
-api层 外部网关层
+srv层 基于底层逻辑                   // go-micro
+web层 基于面向外部接口与底层交互      // web层接口 使用了gin框架实现
+api层 外部网关层                     // micro api --handler=web
 
 micro call命令直接调用srv服务
+
+目录结构：通用方法及配置目录
+.
+├── common-config            * 配置文件目录
+│   └── config               * 配置类
+│   │   └── config.go        * 初始化配置类
+│   │   └── etcd.go          * etcd配置结构体 /配置中心
+│   │   └── mysql.go         * mysql配置结构体
+│   │   └── profiles.go      * 配置文件树辅助类
+│   └── db                   * 数据库相关
+│   │    └── db.go           * 初始化数据库
+│   │    └── mysql.go        * mysql数据库相关
+│   └── basic                * 初始化基础组件
+├── common    
 ~~~
 
 
