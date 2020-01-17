@@ -67,6 +67,7 @@ make docker
 
 ```
 补充：
+~~~
 .
 ├── common-config            * 配置文件目录
 │   └── config               * 配置类
@@ -94,4 +95,5 @@ make docker
 ├── Dockerfile
 ├── Makefile
 └── README.md
+~~~
 ```
