@@ -21,7 +21,7 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Message struct {
-	Say                  string   `protobuf:"bytes,1,opt,name=say,proto3" json:"say,omitempty"`
+	Msg                  string   `protobuf:"bytes,1,opt,name=msg,proto3" json:"msg,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -52,15 +52,16 @@ func (m *Message) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Message proto.InternalMessageInfo
 
-func (m *Message) GetSay() string {
+func (m *Message) GetMsg() string {
 	if m != nil {
-		return m.Say
+		return m.Msg
 	}
 	return ""
 }
 
 type Request struct {
-	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Podname              string   `protobuf:"bytes,1,opt,name=podname,proto3" json:"podname,omitempty"`
+	Podinfo              string   `protobuf:"bytes,2,opt,name=podinfo,proto3" json:"podinfo,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -91,9 +92,16 @@ func (m *Request) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Request proto.InternalMessageInfo
 
-func (m *Request) GetName() string {
+func (m *Request) GetPodname() string {
 	if m != nil {
-		return m.Name
+		return m.Podname
+	}
+	return ""
+}
+
+func (m *Request) GetPodinfo() string {
+	if m != nil {
+		return m.Podinfo
 	}
 	return ""
 }
@@ -137,191 +145,26 @@ func (m *Response) GetMsg() string {
 	return ""
 }
 
-type StreamingRequest struct {
-	Count                int64    `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *StreamingRequest) Reset()         { *m = StreamingRequest{} }
-func (m *StreamingRequest) String() string { return proto.CompactTextString(m) }
-func (*StreamingRequest) ProtoMessage()    {}
-func (*StreamingRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_40204d9320c6ada8, []int{3}
-}
-
-func (m *StreamingRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_StreamingRequest.Unmarshal(m, b)
-}
-func (m *StreamingRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_StreamingRequest.Marshal(b, m, deterministic)
-}
-func (m *StreamingRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_StreamingRequest.Merge(m, src)
-}
-func (m *StreamingRequest) XXX_Size() int {
-	return xxx_messageInfo_StreamingRequest.Size(m)
-}
-func (m *StreamingRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_StreamingRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_StreamingRequest proto.InternalMessageInfo
-
-func (m *StreamingRequest) GetCount() int64 {
-	if m != nil {
-		return m.Count
-	}
-	return 0
-}
-
-type StreamingResponse struct {
-	Count                int64    `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *StreamingResponse) Reset()         { *m = StreamingResponse{} }
-func (m *StreamingResponse) String() string { return proto.CompactTextString(m) }
-func (*StreamingResponse) ProtoMessage()    {}
-func (*StreamingResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_40204d9320c6ada8, []int{4}
-}
-
-func (m *StreamingResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_StreamingResponse.Unmarshal(m, b)
-}
-func (m *StreamingResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_StreamingResponse.Marshal(b, m, deterministic)
-}
-func (m *StreamingResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_StreamingResponse.Merge(m, src)
-}
-func (m *StreamingResponse) XXX_Size() int {
-	return xxx_messageInfo_StreamingResponse.Size(m)
-}
-func (m *StreamingResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_StreamingResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_StreamingResponse proto.InternalMessageInfo
-
-func (m *StreamingResponse) GetCount() int64 {
-	if m != nil {
-		return m.Count
-	}
-	return 0
-}
-
-type Ping struct {
-	Stroke               int64    `protobuf:"varint,1,opt,name=stroke,proto3" json:"stroke,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Ping) Reset()         { *m = Ping{} }
-func (m *Ping) String() string { return proto.CompactTextString(m) }
-func (*Ping) ProtoMessage()    {}
-func (*Ping) Descriptor() ([]byte, []int) {
-	return fileDescriptor_40204d9320c6ada8, []int{5}
-}
-
-func (m *Ping) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Ping.Unmarshal(m, b)
-}
-func (m *Ping) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Ping.Marshal(b, m, deterministic)
-}
-func (m *Ping) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Ping.Merge(m, src)
-}
-func (m *Ping) XXX_Size() int {
-	return xxx_messageInfo_Ping.Size(m)
-}
-func (m *Ping) XXX_DiscardUnknown() {
-	xxx_messageInfo_Ping.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Ping proto.InternalMessageInfo
-
-func (m *Ping) GetStroke() int64 {
-	if m != nil {
-		return m.Stroke
-	}
-	return 0
-}
-
-type Pong struct {
-	Stroke               int64    `protobuf:"varint,1,opt,name=stroke,proto3" json:"stroke,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Pong) Reset()         { *m = Pong{} }
-func (m *Pong) String() string { return proto.CompactTextString(m) }
-func (*Pong) ProtoMessage()    {}
-func (*Pong) Descriptor() ([]byte, []int) {
-	return fileDescriptor_40204d9320c6ada8, []int{6}
-}
-
-func (m *Pong) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Pong.Unmarshal(m, b)
-}
-func (m *Pong) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Pong.Marshal(b, m, deterministic)
-}
-func (m *Pong) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Pong.Merge(m, src)
-}
-func (m *Pong) XXX_Size() int {
-	return xxx_messageInfo_Pong.Size(m)
-}
-func (m *Pong) XXX_DiscardUnknown() {
-	xxx_messageInfo_Pong.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Pong proto.InternalMessageInfo
-
-func (m *Pong) GetStroke() int64 {
-	if m != nil {
-		return m.Stroke
-	}
-	return 0
-}
-
 func init() {
 	proto.RegisterType((*Message)(nil), "go.micro.srv.kubernetes.Message")
 	proto.RegisterType((*Request)(nil), "go.micro.srv.kubernetes.Request")
 	proto.RegisterType((*Response)(nil), "go.micro.srv.kubernetes.Response")
-	proto.RegisterType((*StreamingRequest)(nil), "go.micro.srv.kubernetes.StreamingRequest")
-	proto.RegisterType((*StreamingResponse)(nil), "go.micro.srv.kubernetes.StreamingResponse")
-	proto.RegisterType((*Ping)(nil), "go.micro.srv.kubernetes.Ping")
-	proto.RegisterType((*Pong)(nil), "go.micro.srv.kubernetes.Pong")
 }
 
 func init() { proto.RegisterFile("kubernetes.proto", fileDescriptor_40204d9320c6ada8) }
 
 var fileDescriptor_40204d9320c6ada8 = []byte{
-	// 270 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x92, 0x51, 0x4b, 0xc3, 0x40,
-	0x0c, 0x80, 0x57, 0x57, 0xbb, 0x99, 0xa7, 0x1a, 0x44, 0xa5, 0x3a, 0x99, 0xf7, 0xd4, 0xf9, 0x70,
-	0x0c, 0xfd, 0x09, 0x3e, 0xca, 0x44, 0xea, 0x2f, 0xe8, 0x4a, 0x38, 0xca, 0xd6, 0xbb, 0x79, 0xb9,
-	0x0a, 0xfe, 0x0b, 0x7f, 0xb2, 0xf4, 0xda, 0xaa, 0x88, 0x1d, 0x7b, 0x4b, 0xf8, 0xbe, 0xe4, 0x92,
-	0x70, 0x10, 0x6f, 0xea, 0x35, 0x59, 0x4d, 0x8e, 0x58, 0xee, 0xac, 0x71, 0x06, 0x2f, 0x94, 0x91,
-	0x55, 0x59, 0x58, 0x23, 0xd9, 0xbe, 0xcb, 0x1f, 0x2c, 0xae, 0x60, 0xb2, 0x22, 0xe6, 0x5c, 0x11,
-	0xc6, 0x30, 0xe6, 0xfc, 0xe3, 0x32, 0x98, 0x07, 0xe9, 0x49, 0xd6, 0x84, 0x62, 0x06, 0x93, 0x8c,
-	0xde, 0x6a, 0x62, 0x87, 0x08, 0xa1, 0xce, 0x2b, 0xea, 0xa8, 0x8f, 0xc5, 0x35, 0x4c, 0x33, 0xe2,
-	0x9d, 0xd1, 0xec, 0x8b, 0x2b, 0x56, 0x7d, 0x71, 0xc5, 0x4a, 0xa4, 0x10, 0xbf, 0x3a, 0x4b, 0x79,
-	0x55, 0x6a, 0xd5, 0x77, 0x39, 0x83, 0xe3, 0xc2, 0xd4, 0xda, 0x79, 0x6f, 0x9c, 0xb5, 0x89, 0x58,
-	0xc0, 0xe9, 0x2f, 0xb3, 0x6b, 0xf8, 0xbf, 0x7a, 0x03, 0xe1, 0x4b, 0xa9, 0x15, 0x9e, 0x43, 0xc4,
-	0xce, 0x9a, 0x0d, 0x75, 0xb8, 0xcb, 0x3c, 0x37, 0xc3, 0xfc, 0xfe, 0xf3, 0x08, 0xe0, 0xe9, 0x7b,
-	0x7b, 0x5c, 0x41, 0xf8, 0x98, 0x6f, 0xb7, 0x38, 0x97, 0x03, 0xf7, 0x91, 0xdd, 0xe4, 0xc9, 0xed,
-	0x1e, 0xa3, 0x9d, 0x58, 0x8c, 0xb0, 0x80, 0xa8, 0x5d, 0x04, 0x17, 0x83, 0xfa, 0xdf, 0x9b, 0x24,
-	0x77, 0x87, 0xa8, 0xfd, 0x13, 0xcb, 0x00, 0x9f, 0x61, 0xda, 0x9c, 0xc0, 0xaf, 0x39, 0x1b, 0xac,
-	0x6d, 0x94, 0x64, 0x0f, 0x36, 0x5a, 0x89, 0x51, 0x1a, 0x2c, 0x83, 0x75, 0xe4, 0x7f, 0xc8, 0xc3,
-	0x57, 0x00, 0x00, 0x00, 0xff, 0xff, 0x24, 0xbc, 0x5e, 0xd8, 0x35, 0x02, 0x00, 0x00,
+	// 188 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0xc8, 0x2e, 0x4d, 0x4a,
+	0x2d, 0xca, 0x4b, 0x2d, 0x49, 0x2d, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x4f, 0xcf,
+	0xd7, 0xcb, 0xcd, 0x4c, 0x2e, 0xca, 0xd7, 0x2b, 0x2e, 0x2a, 0xd3, 0x43, 0x48, 0x2b, 0x49, 0x73,
+	0xb1, 0xfb, 0xa6, 0x16, 0x17, 0x27, 0xa6, 0xa7, 0x0a, 0x09, 0x70, 0x31, 0xe7, 0x16, 0xa7, 0x4b,
+	0x30, 0x2a, 0x30, 0x6a, 0x70, 0x06, 0x81, 0x98, 0x4a, 0xb6, 0x5c, 0xec, 0x41, 0xa9, 0x85, 0xa5,
+	0xa9, 0xc5, 0x25, 0x42, 0x12, 0x5c, 0xec, 0x05, 0xf9, 0x29, 0x79, 0x89, 0xb9, 0xa9, 0x50, 0x05,
+	0x30, 0x2e, 0x54, 0x26, 0x33, 0x2f, 0x2d, 0x5f, 0x82, 0x09, 0x2e, 0x03, 0xe2, 0x2a, 0xc9, 0x70,
+	0x71, 0x04, 0xa5, 0x16, 0x17, 0xe4, 0xe7, 0x15, 0x63, 0x31, 0xdc, 0x68, 0x0d, 0x23, 0x17, 0x97,
+	0x37, 0xdc, 0x21, 0x42, 0xbe, 0x5c, 0x2c, 0xce, 0x89, 0x39, 0x39, 0x42, 0x0a, 0x7a, 0x38, 0x9c,
+	0xaa, 0x07, 0x75, 0x8a, 0x94, 0x22, 0x1e, 0x15, 0x10, 0xdb, 0x94, 0x18, 0x84, 0xfc, 0xb9, 0xd8,
+	0x02, 0xf2, 0x53, 0xdc, 0x53, 0x4b, 0xa8, 0x64, 0x60, 0x12, 0x1b, 0x38, 0x20, 0x8d, 0x01, 0x01,
+	0x00, 0x00, 0xff, 0xff, 0xa2, 0x41, 0xe0, 0x53, 0x5c, 0x01, 0x00, 0x00,
 }

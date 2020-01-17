@@ -7,11 +7,7 @@ require (
 	github.com/micro/go-micro v1.10.0
 )
 
-replace (
-	micros/common => ../common
-	micros/product => ../product
-	micros/user => ../user
-)
+replace micro-go/user => ../user
 
 replace github.com/testcontainers/testcontainer-go => github.com/testcontainers/testcontainers-go v0.0.9
 

@@ -51,7 +51,7 @@ git clone https://github.com/sheldon-lu/micros.git
 consul agent -dev
 
 ## 启动微服务
-cd micros/user
+cd micro-go/user
 
 ## 因为是微服务，每个服务都是独立的模块，需要单独起服务。
 go run main.go -registry=consul

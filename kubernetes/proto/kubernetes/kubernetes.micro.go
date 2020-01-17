@@ -35,8 +35,7 @@ var _ server.Option
 
 type KubernetesService interface {
 	Call(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
-	Stream(ctx context.Context, in *StreamingRequest, opts ...client.CallOption) (Kubernetes_StreamService, error)
-	PingPong(ctx context.Context, opts ...client.CallOption) (Kubernetes_PingPongService, error)
+	PodGet(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
 }
 
 type kubernetesService struct {
@@ -67,109 +66,27 @@ func (c *kubernetesService) Call(ctx context.Context, in *Request, opts ...clien
 	return out, nil
 }
 
-func (c *kubernetesService) Stream(ctx context.Context, in *StreamingRequest, opts ...client.CallOption) (Kubernetes_StreamService, error) {
-	req := c.c.NewRequest(c.name, "Kubernetes.Stream", &StreamingRequest{})
-	stream, err := c.c.Stream(ctx, req, opts...)
+func (c *kubernetesService) PodGet(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.name, "Kubernetes.PodGet", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	if err := stream.Send(in); err != nil {
-		return nil, err
-	}
-	return &kubernetesServiceStream{stream}, nil
-}
-
-type Kubernetes_StreamService interface {
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Recv() (*StreamingResponse, error)
-}
-
-type kubernetesServiceStream struct {
-	stream client.Stream
-}
-
-func (x *kubernetesServiceStream) Close() error {
-	return x.stream.Close()
-}
-
-func (x *kubernetesServiceStream) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *kubernetesServiceStream) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *kubernetesServiceStream) Recv() (*StreamingResponse, error) {
-	m := new(StreamingResponse)
-	err := x.stream.Recv(m)
-	if err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *kubernetesService) PingPong(ctx context.Context, opts ...client.CallOption) (Kubernetes_PingPongService, error) {
-	req := c.c.NewRequest(c.name, "Kubernetes.PingPong", &Ping{})
-	stream, err := c.c.Stream(ctx, req, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &kubernetesServicePingPong{stream}, nil
-}
-
-type Kubernetes_PingPongService interface {
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Send(*Ping) error
-	Recv() (*Pong, error)
-}
-
-type kubernetesServicePingPong struct {
-	stream client.Stream
-}
-
-func (x *kubernetesServicePingPong) Close() error {
-	return x.stream.Close()
-}
-
-func (x *kubernetesServicePingPong) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *kubernetesServicePingPong) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *kubernetesServicePingPong) Send(m *Ping) error {
-	return x.stream.Send(m)
-}
-
-func (x *kubernetesServicePingPong) Recv() (*Pong, error) {
-	m := new(Pong)
-	err := x.stream.Recv(m)
-	if err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // Server API for Kubernetes service
 
 type KubernetesHandler interface {
 	Call(context.Context, *Request, *Response) error
-	Stream(context.Context, *StreamingRequest, Kubernetes_StreamStream) error
-	PingPong(context.Context, Kubernetes_PingPongStream) error
+	PodGet(context.Context, *Request, *Response) error
 }
 
 func RegisterKubernetesHandler(s server.Server, hdlr KubernetesHandler, opts ...server.HandlerOption) error {
 	type kubernetes interface {
 		Call(ctx context.Context, in *Request, out *Response) error
-		Stream(ctx context.Context, stream server.Stream) error
-		PingPong(ctx context.Context, stream server.Stream) error
+		PodGet(ctx context.Context, in *Request, out *Response) error
 	}
 	type Kubernetes struct {
 		kubernetes
@@ -186,77 +103,6 @@ func (h *kubernetesHandler) Call(ctx context.Context, in *Request, out *Response
 	return h.KubernetesHandler.Call(ctx, in, out)
 }
 
-func (h *kubernetesHandler) Stream(ctx context.Context, stream server.Stream) error {
-	m := new(StreamingRequest)
-	if err := stream.Recv(m); err != nil {
-		return err
-	}
-	return h.KubernetesHandler.Stream(ctx, m, &kubernetesStreamStream{stream})
-}
-
-type Kubernetes_StreamStream interface {
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Send(*StreamingResponse) error
-}
-
-type kubernetesStreamStream struct {
-	stream server.Stream
-}
-
-func (x *kubernetesStreamStream) Close() error {
-	return x.stream.Close()
-}
-
-func (x *kubernetesStreamStream) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *kubernetesStreamStream) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *kubernetesStreamStream) Send(m *StreamingResponse) error {
-	return x.stream.Send(m)
-}
-
-func (h *kubernetesHandler) PingPong(ctx context.Context, stream server.Stream) error {
-	return h.KubernetesHandler.PingPong(ctx, &kubernetesPingPongStream{stream})
-}
-
-type Kubernetes_PingPongStream interface {
-	SendMsg(interface{}) error
-	RecvMsg(interface{}) error
-	Close() error
-	Send(*Pong) error
-	Recv() (*Ping, error)
-}
-
-type kubernetesPingPongStream struct {
-	stream server.Stream
-}
-
-func (x *kubernetesPingPongStream) Close() error {
-	return x.stream.Close()
-}
-
-func (x *kubernetesPingPongStream) SendMsg(m interface{}) error {
-	return x.stream.Send(m)
-}
-
-func (x *kubernetesPingPongStream) RecvMsg(m interface{}) error {
-	return x.stream.Recv(m)
-}
-
-func (x *kubernetesPingPongStream) Send(m *Pong) error {
-	return x.stream.Send(m)
-}
-
-func (x *kubernetesPingPongStream) Recv() (*Ping, error) {
-	m := new(Ping)
-	if err := x.stream.Recv(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+func (h *kubernetesHandler) PodGet(ctx context.Context, in *Request, out *Response) error {
+	return h.KubernetesHandler.PodGet(ctx, in, out)
 }

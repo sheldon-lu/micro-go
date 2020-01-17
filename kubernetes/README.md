@@ -5,7 +5,7 @@ This is the Kubernetes service
 Generated with
 
 ```
-micro new micros/kubernetes --namespace=go.micro --alias=kubernetes --type=srv
+micro new micro-go/kubernetes --namespace=go.micro --alias=kubernetes --type=srv
 ```
 
 ## Getting Started
